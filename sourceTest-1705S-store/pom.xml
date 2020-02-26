@@ -141,6 +141,11 @@
                 <!-- 只有这个版本打包的jsp页面才能访问 -->
                 <version>1.4.2.RELEASE</version>
             </plugin>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.0</version>
+            </plugin>
         </plugins>
     </build>
 </project>
