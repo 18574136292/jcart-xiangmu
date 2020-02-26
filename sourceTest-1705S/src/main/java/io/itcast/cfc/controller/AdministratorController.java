@@ -1,6 +1,6 @@
 package io.itcast.cfc.controller;
 
-import io.itcast.cfc.cfc.dto.in.*;
+import io.itcast.cfc.dto.in.*;
 import io.itcast.cfc.dto.in.*;
 import io.itcast.cfc.dto.out.AdministratorGetProfileOutDTO;
 import io.itcast.cfc.dto.out.AdministratorListOutDTO;

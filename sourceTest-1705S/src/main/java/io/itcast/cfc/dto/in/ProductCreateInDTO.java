@@ -17,7 +17,7 @@ public class ProductCreateInDTO {
     private Double discount;
     private Integer stockQuantity;
     private Byte status;
-    private String mainPicPoints;
+    private String mainPicUrl;
     private Integer rewordPoints;
     private Integer sortOrder;
     private String description;

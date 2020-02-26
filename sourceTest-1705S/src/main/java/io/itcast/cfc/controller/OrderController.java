@@ -1,6 +1,6 @@
 package io.itcast.cfc.controller;
 
-import io.itcast.cfc.cfc.dto.out.*;
+import io.itcast.cfc.dto.out.*;
 import io.itcast.cfc.dto.in.OrderSearchInDTO;
 import io.itcast.cfc.dto.out.*;
 import org.springframework.web.bind.annotation.*;
