@@ -3,6 +3,7 @@ package io.itcast.cfc.dao;
 import com.github.pagehelper.Page;
 import io.itcast.cfc.dto.out.ProductListOutDTO;
 import io.itcast.cfc.model.Product;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,5 +24,5 @@ public interface ProductMapper {
 
     Page<ProductListOutDTO> search();
 
-    void batchDelete(List<Integer> productIds);
+    void batchDelete(@Param("productIds") List<Integer> productIds);
 }
