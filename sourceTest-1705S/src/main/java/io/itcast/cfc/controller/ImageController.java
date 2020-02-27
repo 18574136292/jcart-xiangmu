@@ -19,8 +19,8 @@ public class ImageController {
     private List<String> imageList = Arrays.asList("jpg","jpeg","png");
 
     @PostMapping("/upload")
-    public String upload(@RequestParam MultipartFile file) throws ClientException, IOException {
-        String originalFilename = file.getOriginalFilename();
+    public String upload(@RequestParam MultipartFile image) throws ClientException, IOException {
+        String originalFilename = image.getOriginalFilename();
         String[] split = originalFilename.split("\\.");
         String str = split[split.length - 1];
         str = str.toLowerCase();
@@ -32,7 +32,7 @@ public class ImageController {
         String filename = String.format("%s.%s", uuid, str);
         String filepath = String.format("www/image/%s", filename);
         try(FileOutputStream outputStream = new FileOutputStream(filepath)) {
-            byte[] bytes = file.getBytes();
+            byte[] bytes = image.getBytes();
             outputStream.write(bytes);
         }
         return filename;
