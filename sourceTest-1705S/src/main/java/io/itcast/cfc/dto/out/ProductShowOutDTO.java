@@ -21,6 +21,7 @@ public class ProductShowOutDTO {
     private String mainPicUrl;
     private Integer rewordPoints;
     private Integer sortOrder;
+    private String productAbstract;
     private String description;
     private List<String> otherPicUrls;
 }
