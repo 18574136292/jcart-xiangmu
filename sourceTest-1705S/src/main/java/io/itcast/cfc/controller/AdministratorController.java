@@ -1,11 +1,14 @@
 package io.itcast.cfc.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import io.itcast.cfc.constant.ClientExceptionConstant;
 import io.itcast.cfc.dto.in.*;
-import io.itcast.cfc.dto.in.*;
-import io.itcast.cfc.dto.out.AdministratorGetProfileOutDTO;
-import io.itcast.cfc.dto.out.AdministratorListOutDTO;
-import io.itcast.cfc.dto.out.AdministratorShowOutDTO;
-import io.itcast.cfc.dto.out.PageOutDTO;
+import io.itcast.cfc.dto.out.*;
+import io.itcast.cfc.exception.ClientException;
+import io.itcast.cfc.model.Administrator;
+import io.itcast.cfc.service.AdministratorService;
+import io.itcast.cfc.util.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +17,26 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdministratorController {
 
-    @GetMapping("/loginIn")
-    public String login(AdministratorLoginInDTO administratorLoginInDTO){
+    @Autowired
+    private AdministratorService administratorService;
 
-        return null;
+    @Autowired
+    private JWTUtil jwtUtil;
+
+    @GetMapping("/loginIn")
+    public AdministratorLoginOutDTO login(AdministratorLoginInDTO administratorLoginInDTO) throws ClientException {
+        Administrator administrator = administratorService.getByUsername(administratorLoginInDTO.getUsername());
+        if(administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRCODE,ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRMSG);
+        }
+        String encryptedPassword = administrator.getEncryptedPassword();
+        BCrypt.Result verify = BCrypt.verifyer().verify(administratorLoginInDTO.getPassword().toCharArray(), encryptedPassword);
+        if(verify.verified){
+            AdministratorLoginOutDTO administratorLoginOutDTO = jwtUtil.issueToken(administrator);
+            return administratorLoginOutDTO;
+        }else{
+            throw new ClientException(ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRCODE,ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRMSG);
+        }
     }
 
     @GetMapping("/getProfile")
