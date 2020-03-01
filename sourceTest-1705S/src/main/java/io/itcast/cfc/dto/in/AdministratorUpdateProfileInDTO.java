@@ -12,6 +12,4 @@ public class AdministratorUpdateProfileInDTO {
     private String realName;
     private String email;
     private String avatarUrl;
-    private String password;
-    private Byte status;
 }
