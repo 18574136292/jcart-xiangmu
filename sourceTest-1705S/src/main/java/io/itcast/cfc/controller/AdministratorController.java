@@ -4,6 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.itcast.cfc.constant.ClientExceptionConstant;
 import io.itcast.cfc.dto.in.*;
 import io.itcast.cfc.dto.out.*;
+import io.itcast.cfc.enumeration.AdministratorStatus;
 import io.itcast.cfc.exception.ClientException;
 import io.itcast.cfc.model.Administrator;
 import io.itcast.cfc.service.AdministratorService;
@@ -11,6 +12,7 @@ import io.itcast.cfc.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -85,7 +87,18 @@ public class AdministratorController {
 
     @PostMapping("/create")
     public Integer create(@RequestBody AdministratorCreateInDTO administratorCreateInDTO){
-        return null;
+        Administrator administrator = new Administrator();
+        administrator.setUsername(administratorCreateInDTO.getUsername());
+        administrator.setRealName(administratorCreateInDTO.getRealName());
+        administrator.setEmail(administratorCreateInDTO.getEmail());
+        administrator.setAvatarUrl(administratorCreateInDTO.getAvatarUrl());
+        administrator.setStatus((byte) AdministratorStatus.Enable.ordinal());
+        administrator.setCreateTime(new Date());
+
+        String bcryptPassword = BCrypt.withDefaults().hashToString(12, administratorCreateInDTO.getPassword().toCharArray());
+        administrator.setEncryptedPassword(bcryptPassword);
+        Integer administratorId = administratorService.create(administrator);
+        return administratorId;
     }
 
     @PostMapping("/update")

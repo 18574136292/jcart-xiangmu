@@ -29,4 +29,10 @@ public class AdministratorServiceImpl implements AdministratorService {
     public void update(Administrator administrator) {
         administratorMapper.updateByPrimaryKeySelective(administrator);
     }
+
+    @Override
+    public Integer create(Administrator administrator) {
+        administratorMapper.insertSelective(administrator);
+        return administrator.getAdministratorId();
+    }
 }
