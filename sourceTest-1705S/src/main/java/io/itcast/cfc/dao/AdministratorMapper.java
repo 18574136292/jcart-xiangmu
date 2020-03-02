@@ -1,6 +1,9 @@
 package io.itcast.cfc.dao;
 
+import com.github.pagehelper.Page;
 import io.itcast.cfc.model.Administrator;
+
+import java.util.List;
 
 public interface AdministratorMapper {
     int deleteByPrimaryKey(Integer administratorId);
@@ -16,4 +19,8 @@ public interface AdministratorMapper {
     int updateByPrimaryKey(Administrator record);
 
     Administrator selectByUsername(String username);
+
+    void deleteAny(List<Integer> administratorIds);
+
+    Page<Administrator> selectListAll();
 }

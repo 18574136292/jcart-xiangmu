@@ -11,6 +11,7 @@ public class AdministratorListOutDTO {
 
     private Integer administratorId;
     private String username;
+    private String realName;
     private Byte status;
     private Long createTimestamp;
 }

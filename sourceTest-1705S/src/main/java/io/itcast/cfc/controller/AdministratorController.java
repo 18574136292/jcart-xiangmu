@@ -1,6 +1,7 @@
 package io.itcast.cfc.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.github.pagehelper.Page;
 import io.itcast.cfc.constant.ClientExceptionConstant;
 import io.itcast.cfc.dto.in.*;
 import io.itcast.cfc.dto.out.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin")
@@ -76,13 +78,37 @@ public class AdministratorController {
     }
 
     @GetMapping("/getList")
-    public PageOutDTO<AdministratorListOutDTO> getList(@RequestParam Integer pageNum){
-        return null;
+    public PageOutDTO<AdministratorListOutDTO> getList(@RequestParam(required = false,defaultValue = "1") Integer pageNum){
+        Page<Administrator> page = administratorService.getList(pageNum);
+        List<AdministratorListOutDTO> administratorListOutDTOS = page.stream().map(administrator -> {
+            AdministratorListOutDTO administratorListOutDTO = new AdministratorListOutDTO();
+            administratorListOutDTO.setAdministratorId(administrator.getAdministratorId());
+            administratorListOutDTO.setUsername(administrator.getUsername());
+            administratorListOutDTO.setRealName(administrator.getRealName());
+            administratorListOutDTO.setStatus(administrator.getStatus());
+            administratorListOutDTO.setCreateTimestamp(administrator.getCreateTime().getTime());
+            return administratorListOutDTO;
+        }).collect(Collectors.toList());
+
+        PageOutDTO<AdministratorListOutDTO> pageOutDTO = new PageOutDTO<>();
+        pageOutDTO.setTotal(page.getTotal());
+        pageOutDTO.setPageSize(page.getPageSize());
+        pageOutDTO.setPageNum(page.getPageNum());
+        pageOutDTO.setList(administratorListOutDTOS);
+        return pageOutDTO;
     }
 
     @GetMapping("/getById")
     public AdministratorShowOutDTO getById(@RequestParam Integer administratorId){
-        return null;
+        Administrator administrator = administratorService.getById(administratorId);
+        AdministratorShowOutDTO administratorShowOutDTO = new AdministratorShowOutDTO();
+        administratorShowOutDTO.setAdministratorId(administrator.getAdministratorId());
+        administratorShowOutDTO.setUsername(administrator.getUsername());
+        administratorShowOutDTO.setRealName(administrator.getRealName());
+        administratorShowOutDTO.setEmail(administrator.getEmail());
+        administratorShowOutDTO.setAvatarUrl(administrator.getAvatarUrl());
+        administratorShowOutDTO.setStatus(administrator.getStatus());
+        return administratorShowOutDTO;
     }
 
     @PostMapping("/create")
@@ -103,16 +129,27 @@ public class AdministratorController {
 
     @PostMapping("/update")
     public void update(@RequestBody AdministratorUpdateInDTO administratorUpdateInDTO){
-
+        Administrator administrator = new Administrator();
+        administrator.setAdministratorId(administratorUpdateInDTO.getAdministratorId());
+        administrator.setRealName(administratorUpdateInDTO.getRealName());
+        administrator.setEmail(administratorUpdateInDTO.getEmail());
+        administrator.setAvatarUrl(administratorUpdateInDTO.getAvatarUrl());
+        administrator.setStatus(administratorUpdateInDTO.getStatus());
+        String password = administratorUpdateInDTO.getPassword();
+        if(password != null && !password.isEmpty()){
+            String bcryptPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+            administrator.setEncryptedPassword(bcryptPassword);
+        }
+        administratorService.update(administrator);
     }
 
     @PostMapping("/delete")
     public void delete(@RequestBody Integer administratorId){
-
+        administratorService.delete(administratorId);
     }
 
     @PostMapping("/deleteAny")
     public void deleteAny(@RequestBody List<Integer> administratorIds){
-
+        administratorService.deleteAny(administratorIds);
     }
 }

@@ -11,6 +11,7 @@ public class AdministratorShowOutDTO {
 
     private Integer administratorId;
     private String username;
+    private String realName;
     private String email;
     private String avatarUrl;
     private Byte status;
