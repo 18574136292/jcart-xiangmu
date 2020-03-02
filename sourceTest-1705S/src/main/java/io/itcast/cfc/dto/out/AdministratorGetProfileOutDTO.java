@@ -14,6 +14,5 @@ public class AdministratorGetProfileOutDTO {
     private String realName;
     private String email;
     private String avatarUrl;
-    private Byte status;
     private Long createTimestamp;
 }
