@@ -36,4 +36,10 @@ public class CustomerServiceImpl implements CustomerService {
         customerMapper.insertSelective(customer);
         return customer.getCustomerId();
     }
+
+    @Override
+    public Customer getByUsername(String username) {
+
+        return customerMapper.selectByUsername(username);
+    }
 }
