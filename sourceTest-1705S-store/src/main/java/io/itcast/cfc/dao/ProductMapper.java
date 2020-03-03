@@ -1,5 +1,7 @@
 package io.itcast.cfc.dao;
 
+import com.github.pagehelper.Page;
+import io.itcast.cfc.dto.out.ProductListOutDTO;
 import io.itcast.cfc.model.Product;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +18,6 @@ public interface ProductMapper {
     int updateByPrimaryKeySelective(Product record);
 
     int updateByPrimaryKey(Product record);
+
+    Page<ProductListOutDTO> selectAllProduct();
 }
