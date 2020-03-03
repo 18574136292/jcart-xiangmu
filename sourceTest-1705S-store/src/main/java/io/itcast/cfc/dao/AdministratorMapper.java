@@ -1,7 +1,9 @@
 package io.itcast.cfc.dao;
 
 import io.itcast.cfc.model.Administrator;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface AdministratorMapper {
     int deleteByPrimaryKey(Integer administratorId);
 

@@ -2,15 +2,22 @@ package io.itcast.cfc.controller;
 
 import io.itcast.cfc.dto.in.*;
 import io.itcast.cfc.dto.out.CustomerGetProfileOutDTO;
+import io.itcast.cfc.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customer")
+@CrossOrigin
 public class CustomerController {
+
+    @Autowired
+    private CustomerService customerService;
 
     @PostMapping("/register")
     public Integer register(@RequestBody CustomerRegisterInDTO customerRegisterInDTO){
-        return null;
+        Integer customerId = customerService.register(customerRegisterInDTO);
+        return customerId;
     }
 
     @GetMapping("/login")

@@ -1,7 +1,9 @@
 package io.itcast.cfc.dao;
 
 import io.itcast.cfc.model.Product;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ProductMapper {
     int deleteByPrimaryKey(Integer productId);
 

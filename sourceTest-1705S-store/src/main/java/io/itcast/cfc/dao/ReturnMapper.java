@@ -1,7 +1,9 @@
 package io.itcast.cfc.dao;
 
 import io.itcast.cfc.model.Return;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ReturnMapper {
     int deleteByPrimaryKey(Integer returnId);
 

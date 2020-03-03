@@ -1,7 +1,9 @@
 package io.itcast.cfc.dao;
 
 import io.itcast.cfc.model.OrderHistory;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface OrderHistoryMapper {
     int deleteByPrimaryKey(Long orderHistoryId);
 
