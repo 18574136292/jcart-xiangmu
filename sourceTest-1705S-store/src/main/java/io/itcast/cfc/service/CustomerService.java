@@ -9,4 +9,8 @@ public interface CustomerService {
     Customer getByUsername(String username);
 
     Customer getById(Integer customerId);
+
+    void update(Customer customer);
+
+    Customer getByEmail(String email);
 }
