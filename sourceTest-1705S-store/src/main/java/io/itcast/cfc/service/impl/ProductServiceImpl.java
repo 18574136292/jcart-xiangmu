@@ -51,4 +51,9 @@ public class ProductServiceImpl implements ProductService {
         productShowOutDTO.setOtherPicUrls(otherPicUrls);
         return productShowOutDTO;
     }
+
+    @Override
+    public Product selectById(Integer productId) {
+        return productMapper.selectByPrimaryKey(productId);
+    }
 }
