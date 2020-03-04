@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddressListOutDTO {
+public class AddressShowOutDTO {
 
     private Integer addressId;
+    private String tag;
     private String receiverName;
     private String receiverMobile;
     private String content;
-    private String tag;
 }
