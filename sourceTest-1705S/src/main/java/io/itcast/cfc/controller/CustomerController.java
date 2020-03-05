@@ -2,9 +2,11 @@ package io.itcast.cfc.controller;
 
 import com.github.pagehelper.Page;
 import io.itcast.cfc.dto.in.CustomerSearchInDTO;
+import io.itcast.cfc.dto.in.CustomerSetStatusInDTO;
 import io.itcast.cfc.dto.out.CustomerLIstOutDTO;
 import io.itcast.cfc.dto.out.CustomerShowOutDTO;
 import io.itcast.cfc.dto.out.PageOutDTO;
+import io.itcast.cfc.model.Address;
 import io.itcast.cfc.model.Customer;
 import io.itcast.cfc.service.AddressService;
 import io.itcast.cfc.service.CustomerService;
@@ -49,11 +51,29 @@ public class CustomerController {
 
     @GetMapping("/getById")
     public CustomerShowOutDTO getById(@RequestParam Integer customerId){
-        return null;
+        Customer customer = customerService.getById(customerId);
+        CustomerShowOutDTO customerShowOutDTO = new CustomerShowOutDTO();
+        customerShowOutDTO.setCustomerId(customer.getCustomerId());
+        customerShowOutDTO.setUsername(customer.getUsername());
+        customerShowOutDTO.setRealName(customer.getRealName());
+        customerShowOutDTO.setMobile(customer.getMobile());
+        customerShowOutDTO.setEmail(customer.getEmail());
+        customerShowOutDTO.setAvatarUrl(customer.getAvatarUrl());
+        customerShowOutDTO.setStatus(customer.getStatus());
+        customerShowOutDTO.setRewordPoints(customer.getRewordPoints());
+        customerShowOutDTO.setNewsSubscribed(customer.getNewsSubscribed());
+        customerShowOutDTO.setCreateTimestamp(customer.getCreateTime().getTime());
+        customerShowOutDTO.setDefaultAddressId(customer.getDefaultAddressId());
+
+        Address address = addressService.getById(customer.getDefaultAddressId());
+        if(address != null){
+            customerShowOutDTO.setDefaultAddress(address.getContent());
+        }
+        return customerShowOutDTO;
     }
 
-    @PostMapping("/disable")
-    public void disable(@RequestParam Integer customerId){
-
+    @PostMapping("/setStatus")
+    public void disable(@RequestBody CustomerSetStatusInDTO customerSetStatusInDTO){
+        customerService.setStatus(customerSetStatusInDTO);
     }
 }

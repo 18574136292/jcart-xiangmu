@@ -19,7 +19,7 @@ var app = new Vue({
             this.pageNum = value;
             this.pageSearchCustomer();
         },
-        handleUpdateClick(index,row){
+        handleUpdateStatus(index,row){
             console.log('update status click');
             this.updateCustomerStatus(row.customerId,row.status);
         },
