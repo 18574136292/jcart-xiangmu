@@ -11,7 +11,6 @@ public class OrderListOutDTO {
 
     private Long orderId;
     private Integer customerId;
-    private String customerName;
     private Integer totalProducts;
     private Byte status;
     private Double totalPrice;

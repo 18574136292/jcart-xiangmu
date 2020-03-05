@@ -1,5 +1,6 @@
 package io.itcast.cfc.dao;
 
+import com.github.pagehelper.Page;
 import io.itcast.cfc.model.Order;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    Page<Order> getByCustomerId(Integer customerId);
 }
