@@ -1,7 +1,9 @@
 package io.itcast.cfc.dao;
 
 import io.itcast.cfc.model.ReturnHistory;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ReturnHistoryMapper {
     int deleteByPrimaryKey(Long returnHistoryId);
 

@@ -1,7 +1,10 @@
 package io.itcast.cfc.dao;
 
+import com.github.pagehelper.Page;
 import io.itcast.cfc.model.Customer;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CustomerMapper {
     int deleteByPrimaryKey(Integer customerId);
 
@@ -14,4 +17,6 @@ public interface CustomerMapper {
     int updateByPrimaryKeySelective(Customer record);
 
     int updateByPrimaryKey(Customer record);
+
+    Page<Customer> pageSearch();
 }
