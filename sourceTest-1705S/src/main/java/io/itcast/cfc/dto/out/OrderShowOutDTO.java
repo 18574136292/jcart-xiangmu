@@ -1,5 +1,6 @@
 package io.itcast.cfc.dto.out;
 
+import io.itcast.cfc.vo.OrderProductVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,6 +14,7 @@ public class OrderShowOutDTO {
 
     private Long orderId;
     private Integer customerId;
+    private String customerName;
     private Byte status;
     private Double totalPrice;
     private Integer rewordPoints;
@@ -25,5 +27,5 @@ public class OrderShowOutDTO {
     private String invoiceAddress;
     private Double invoicePrice;
     private String comment;
-    private List<OrderProductShowOutDTO> orderProducts;
+    private List<OrderProductVO> orderProducts;
 }
