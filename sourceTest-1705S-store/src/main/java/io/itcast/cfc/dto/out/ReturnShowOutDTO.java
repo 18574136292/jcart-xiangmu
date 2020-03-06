@@ -12,7 +12,7 @@ import java.util.List;
 public class ReturnShowOutDTO {
 
     private Integer returnId;
-    private Integer orderId;
+    private Long orderId;
     private Long orderTimestamp;
     private String customerName;
     private String mobile;
