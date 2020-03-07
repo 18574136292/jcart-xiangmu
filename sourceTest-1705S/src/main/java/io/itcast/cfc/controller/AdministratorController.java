@@ -11,10 +11,17 @@ import io.itcast.cfc.model.Administrator;
 import io.itcast.cfc.service.AdministratorService;
 import io.itcast.cfc.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.DatatypeConverter;
+import java.security.SecureRandom;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,6 +34,17 @@ public class AdministratorController {
 
     @Autowired
     private JWTUtil jwtUtil;
+
+    @Autowired
+    private SecureRandom secureRandom;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String fromEmail;
+
+    private Map<String, String> emailPwdResetCodeMap = new HashMap<>();
 
     @GetMapping("/loginIn")
     public AdministratorLoginOutDTO login(AdministratorLoginInDTO administratorLoginInDTO) throws ClientException {
@@ -68,13 +86,52 @@ public class AdministratorController {
     }
 
     @GetMapping("/getPasswordResetCode")
-    public String getPasswordResetCode(@RequestParam String email){
+    public String getPasswordResetCode(@RequestParam String email) throws ClientException {
+        Administrator administrator = administratorService.getByEmail(email);
+        if(administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG);
+        }
+        byte[] bytes = secureRandom.generateSeed(3);
+        String hexBinary = DatatypeConverter.printHexBinary(bytes);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(fromEmail);
+        mailMessage.setTo(email);
+        mailMessage.setSubject("管理员重置密码");
+        mailMessage.setText(hexBinary);
+        mailSender.send(mailMessage);
+        emailPwdResetCodeMap.put(email,hexBinary);
         return null;
     }
 
     @PostMapping("/resetPassword")
-    public void resetPassword(@RequestBody AdministratorResetPwdInDTO administratorResetPwdInDTO){
+    public void resetPassword(@RequestBody AdministratorResetPwdInDTO administratorResetPwdInDTO) throws ClientException {
+        String email = administratorResetPwdInDTO.getEmail();
+        if (email == null) {
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_EMAIL_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_EMAIL_NONE_ERRMSG);
+        }
+        String innerResetCode = emailPwdResetCodeMap.get(email);
+        if (innerResetCode == null) {
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_INNER_RESETCODE_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_INNER_RESETCODE_NONE_ERRMSG);
+        }
+        String outerResetCode = administratorResetPwdInDTO.getResetCode();
+        if (outerResetCode == null) {
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_OUTER_RESETCODE_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_OUTER_RESETCODE_NONE_ERRMSG);
+        }
+        if (!outerResetCode.equalsIgnoreCase(innerResetCode)){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_RESETCODE_INVALID_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_RESETCODE_INVALID_ERRMSG);
+        }
+        Administrator administrator = administratorService.getByEmail(email);
+        if (administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG);
+        }
 
+        String newPwd = administratorResetPwdInDTO.getNewPwd();
+        if (newPwd == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_NEWPWD_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_NEWPWD_NOT_EXIST_ERRMSG);
+        }
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12, newPwd.toCharArray());
+        administrator.setEncryptedPassword(bcryptHashString);
+        administratorService.update(administrator);
     }
 
     @GetMapping("/getList")

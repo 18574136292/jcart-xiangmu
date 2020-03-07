@@ -24,4 +24,6 @@ public interface AdministratorMapper {
     void deleteAny(List<Integer> administratorIds);
 
     Page<Administrator> selectListAll();
+
+    Administrator getByEmail(String email);
 }

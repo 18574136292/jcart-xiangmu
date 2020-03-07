@@ -19,4 +19,6 @@ public interface AdministratorService {
     void deleteAny(List<Integer> administratorIds);
 
     Page<Administrator> getList(Integer pageNum);
+
+    Administrator getByEmail(String email);
 }
