@@ -28,4 +28,6 @@ public class ClientExceptionConstant {
     public static final String ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG = "administrator email not exist";
     public static final String ADMINISTRATOR_NEWPWD_NOT_EXIST_ERRCODE = "0108";
     public static final String ADMINISTRATOR_NEWPWD_NOT_EXIST_ERRMSG = "administrator new password not exist";
+    public static final String CUSTOMER_EMAIL_NOT_EXIST_ERRCODE = "0109";
+    public static final String CUSTOMER_EMAIL_NOT_EXIST_ERRMSG = "customer email not exist";
 }

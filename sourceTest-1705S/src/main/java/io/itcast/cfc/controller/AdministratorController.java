@@ -86,7 +86,7 @@ public class AdministratorController {
     }
 
     @GetMapping("/getPasswordResetCode")
-    public String getPasswordResetCode(@RequestParam String email) throws ClientException {
+    public void getPasswordResetCode(@RequestParam String email) throws ClientException {
         Administrator administrator = administratorService.getByEmail(email);
         if(administrator == null){
             throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG);
@@ -100,7 +100,6 @@ public class AdministratorController {
         mailMessage.setText(hexBinary);
         mailSender.send(mailMessage);
         emailPwdResetCodeMap.put(email,hexBinary);
-        return null;
     }
 
     @PostMapping("/resetPassword")
