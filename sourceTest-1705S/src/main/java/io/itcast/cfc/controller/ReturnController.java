@@ -26,7 +26,7 @@ public class ReturnController {
     @GetMapping("/pageSearch")
     public PageOutDTO<ReturnListOutDTO> pageSearch(ReturnSearchInDTO returnSearchInDTO,
                                                    @RequestParam(required = false,defaultValue = "1") Integer pageNum){
-        Page<Return> returnPage = returnService.pageSearch(pageNum);
+        Page<Return> returnPage = returnService.pageSearch(pageNum,returnSearchInDTO);
         List<ReturnListOutDTO> returnListOutDTOS = returnPage.stream().map(returnOne -> {
             ReturnListOutDTO returnListOutDTO = new ReturnListOutDTO();
             returnListOutDTO.setReturnId(returnOne.getReturnId());
@@ -34,6 +34,7 @@ public class ReturnController {
             returnListOutDTO.setCustomerId(returnOne.getCustomerId());
             returnListOutDTO.setCustomerName(returnOne.getCustomerName());
             returnListOutDTO.setProductCode(returnOne.getProductCode());
+            returnListOutDTO.setProductName(returnOne.getProductName());
             returnListOutDTO.setCustomerName(returnOne.getCustomerName());
             returnListOutDTO.setStatus(returnOne.getStatus());
             returnListOutDTO.setCreateTimestamp(returnOne.getCreateTime().getTime());

@@ -2,7 +2,10 @@ package io.itcast.cfc.dao;
 
 import com.github.pagehelper.Page;
 import io.itcast.cfc.model.Return;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 
 @Repository
 public interface ReturnMapper {
@@ -18,5 +21,12 @@ public interface ReturnMapper {
 
     int updateByPrimaryKey(Return record);
 
-    Page<Return> pageSearch();
+    Page<Return> pageSearch(@Param("returnId")Integer returnId,
+                            @Param("orderId") Long orderId,
+                            @Param("startTime") Date startTime,
+                            @Param("endTime") Date endTime,
+                            @Param("status") Byte status,
+                            @Param("productCode") String productCode,
+                            @Param("productName") String productName,
+                            @Param("customerName") String customerName);
 }
