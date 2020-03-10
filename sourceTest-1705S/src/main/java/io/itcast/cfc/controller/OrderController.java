@@ -19,7 +19,7 @@ public class OrderController {
     @GetMapping("/pageSearch")
     public PageOutDTO<OrderListOutDTO> pageSearch(OrderSearchInDTO orderSearchInDTO,
                                                   @RequestParam(required = false,defaultValue = "1") Integer pageNum){
-        Page<OrderListOutDTO> orderListOutDTOS = orderService.pageSearch(pageNum);
+        Page<OrderListOutDTO> orderListOutDTOS = orderService.pageSearch(pageNum,orderSearchInDTO);
         PageOutDTO<OrderListOutDTO> pageOutDTO = new PageOutDTO<>();
         pageOutDTO.setTotal(orderListOutDTOS.getTotal());
         pageOutDTO.setPageNum(orderListOutDTOS.getPageNum());

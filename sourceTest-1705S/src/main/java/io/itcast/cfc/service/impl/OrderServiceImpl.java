@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.itcast.cfc.dao.OrderDetailMapper;
 import io.itcast.cfc.dao.OrderMapper;
+import io.itcast.cfc.dto.in.OrderSearchInDTO;
 import io.itcast.cfc.dto.out.OrderListOutDTO;
 import io.itcast.cfc.dto.out.OrderShowOutDTO;
 import io.itcast.cfc.model.Customer;
@@ -16,6 +17,7 @@ import io.itcast.cfc.vo.OrderProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,9 +33,15 @@ public class OrderServiceImpl implements OrderService {
     private CustomerService customerService;
 
     @Override
-    public Page<OrderListOutDTO> pageSearch(Integer pageNum) {
+    public Page<OrderListOutDTO> pageSearch(Integer pageNum, OrderSearchInDTO orderSearchInDTO) {
         PageHelper.startPage(pageNum,10);
-        Page<OrderListOutDTO> listOutDTOPage = orderMapper.pageSearch();
+        Page<OrderListOutDTO> listOutDTOPage = orderMapper.pageSearch(
+                orderSearchInDTO.getOrderId(),
+                orderSearchInDTO.getStatus(),
+                orderSearchInDTO.getTotalPrice(),
+                orderSearchInDTO.getCustomerName(),
+                orderSearchInDTO.getStartTimestamp() == null ? null : new Date(orderSearchInDTO.getStartTimestamp()),
+                orderSearchInDTO.getEndTimestamp() == null ? null : new Date(orderSearchInDTO.getEndTimestamp()));
         return listOutDTOPage;
     }
 
@@ -65,5 +73,10 @@ public class OrderServiceImpl implements OrderService {
         orderShowOutDTO.setOrderProducts(orderProductVOS);
 
         return orderShowOutDTO;
+    }
+
+    @Override
+    public void update(Order order) {
+        orderMapper.updateByPrimaryKeySelective(order);
     }
 }
