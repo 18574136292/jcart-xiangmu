@@ -28,8 +28,9 @@ public class CustomerController {
     private AddressService addressService;
 
     @GetMapping("/pageSearch")
-    public PageOutDTO<CustomerLIstOutDTO> pageSearch(CustomerSearchInDTO customerSearchInDTO, @RequestParam(required = false,defaultValue = "1") Integer pageNum){
-        Page<Customer> page = customerService.pageSearch(pageNum);
+    public PageOutDTO<CustomerLIstOutDTO> pageSearch(CustomerSearchInDTO customerSearchInDTO,
+                                                     @RequestParam(required = false,defaultValue = "1") Integer pageNum){
+        Page<Customer> page = customerService.pageSearch(pageNum,customerSearchInDTO);
         List<CustomerLIstOutDTO> customerLIstOutDTOS = page.stream().map(p -> {
             CustomerLIstOutDTO customerLIstOutDTO = new CustomerLIstOutDTO();
             customerLIstOutDTO.setCustomerId(p.getCustomerId());

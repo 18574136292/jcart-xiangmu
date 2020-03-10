@@ -7,13 +7,31 @@ var app = new Vue({
             {value:0,label:'禁用'},
             {value:1,label:'启用'},
             {value:2,label:'不安全'}
-        ]
+        ],
+        username:'',
+        realName:'',
+        mobile:'',
+        email:'',
+        selectedStatus:''
     },
     mounted(){
         console.log('customer list');
         this.pageSearchCustomer();
     },
     methods:{
+        handleSearchClick(){
+            console.log('search click');
+            this.pageNum = 1;
+            this.pageSearchCustomer();
+        },
+        handleClearClick(){
+            console.log('clear click');
+            this.username = '';
+            this.realName = '';
+            this.mobile = '';
+            this.email = '';
+            this.selectedStatus = '';
+        },
         handlePageChange(value){
             console.log('page change ',value);
             this.pageNum = value;
@@ -26,7 +44,11 @@ var app = new Vue({
         pageSearchCustomer(){
             axios.get('/customer/pageSearch',{
                 params:{
-                    pageNum:this.pageNum
+                    pageNum:this.pageNum,
+                    username:this.username,
+                    realName:this.realName,
+                    email:this.email,
+                    status:this.selectedStatus
                 }
             })
                 .then(function (response) {

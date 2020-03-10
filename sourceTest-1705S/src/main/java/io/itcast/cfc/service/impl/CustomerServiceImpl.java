@@ -3,6 +3,7 @@ package io.itcast.cfc.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.itcast.cfc.dao.CustomerMapper;
+import io.itcast.cfc.dto.in.CustomerSearchInDTO;
 import io.itcast.cfc.dto.in.CustomerSetStatusInDTO;
 import io.itcast.cfc.model.Customer;
 import io.itcast.cfc.service.CustomerService;
@@ -16,9 +17,14 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerMapper customerMapper;
 
     @Override
-    public Page<Customer> pageSearch(Integer pageNum) {
+    public Page<Customer> pageSearch(Integer pageNum, CustomerSearchInDTO customerSearchInDTO) {
         PageHelper.startPage(pageNum,10);
-        Page<Customer> page = customerMapper.pageSearch();
+        Page<Customer> page = customerMapper.pageSearch(
+                customerSearchInDTO.getUsername(),
+                customerSearchInDTO.getRealName(),
+                customerSearchInDTO.getMobile(),
+                customerSearchInDTO.getEmail(),
+                customerSearchInDTO.getStatus());
         return page;
     }
 
