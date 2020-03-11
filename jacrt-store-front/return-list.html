@@ -21,7 +21,7 @@
             </el-table-column>
             <el-table-column prop="createTimestamp" label="退货申请时间">
                 <template slot-scope="scope">
-                    {{(new Date(scope.scope.row.createTimestamp)).toLocaleString()}}
+                    {{(new Date(scope.row.createTimestamp)).toLocaleString()}}
                 </template>
             </el-table-column>
             <el-table-column prop="orderId" label="订单Id">
