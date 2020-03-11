@@ -29,7 +29,7 @@
             </el-table-column>
             <el-table-column label="数量">
                 <template slot-scope="scope">
-                    <el-input v-model="scope.row.quantity" placeholder="请输入数量"></el-input>
+                    <el-input v-model="scope.row.quantity" type="number" placeholder="请输入数量"></el-input>
                     <el-button size="mini" @click="handleUpdate(scope.$index, scope.row)">修改</el-button>
                 </template>
             </el-table-column>
@@ -44,7 +44,8 @@
                 </template>
             </el-table-column>
         </el-table>
-        总价:{{totalPrice}}
+        总价:{{totalPrice}}<br>
+        <el-button type="primary" @click="handleClearCart">清空购物车</el-button>
     </div>
 
     <script src="assets/js/js.cookie-2.2.1.min.js"></script>

@@ -12,7 +12,13 @@ var app = new Vue({
         quantity:'',
         reason:'',
         comment:'',
-        opened:''
+        opened:'',
+        reasons: [
+            { value: 0, label: '发货过期' },
+            { value: 1, label: '订单错误' },
+            { value: 2, label: '收到错误商品' },
+            { value: 3, label: '质量问题' }
+        ]
     },
     computed:{
         orderTimestamp(){
