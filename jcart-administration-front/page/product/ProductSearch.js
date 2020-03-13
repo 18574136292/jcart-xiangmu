@@ -14,7 +14,7 @@ const ProductSearch = {
         <br>
         <el-button type="primary" @click="handleSearchClick">搜索</el-button>
         <el-button type="primary" @click="handleClearClick">清空条件</el-button>
-    
+        <el-button type="primary" @click="handleCreateClick">新增商品</el-button>
         <el-table :data="pageInfo.list" style="width: 100%">
             <el-table-column prop="mainPicUrl" label="主图">
                 <template slot-scope="scope">
@@ -40,7 +40,7 @@ const ProductSearch = {
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="scope">
-                
+                    <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -81,6 +81,13 @@ const ProductSearch = {
             this.price = '';
             this.stockQuantity = '';
             this.selectedStatus = '';
+        },
+        handleEdit(index,row){
+            console.log('product edit click',index,row);
+            this.$router.push('/product/update/' + row.productId);
+        },
+        handleCreateClick(){
+            this.$router.push('/product/create');
         },
         handlePageChange(value){
             this.pageNum=value;

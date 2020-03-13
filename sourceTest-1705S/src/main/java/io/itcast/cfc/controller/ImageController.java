@@ -39,6 +39,7 @@ public class ImageController {
             byte[] bytes = image.getBytes();
             outputStream.write(bytes);
         }
-        return imageBaseurl + "/" + filename;
+        String string = imageBaseurl + "/" + filename;
+        return string;
     }
 }
