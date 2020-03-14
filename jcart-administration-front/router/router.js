@@ -10,7 +10,9 @@ const routes = [
         ]
     },
     {path:'/admin/getList',component:AdminSearch},
-    {path:'/admin/create',component:AdminCreate}
+    {path:'/admin/create',component:AdminCreate},
+    {path:'/customer/pageSearch',component:CustomerSearch},
+    {path:'/customer/getById/:customerId',component:CustomerShow}
 ];
 
 const router = new VueRouter({
