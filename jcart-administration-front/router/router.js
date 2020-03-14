@@ -9,6 +9,9 @@ const routes = [
             {path:'/orderHistory/create',component:OrderShow}
         ]
     },
+    {path:'/return/pageSearch',component:ReturnSearch},
+    {path:'/return/getById/:returnId',component:ReturnShow},
+    {path:'/returnHistory/getListByReturnId/:returnId',component:ReturnHistorySearch},
     {path:'/admin/getList',component:AdminSearch},
     {path:'/admin/create',component:AdminCreate},
     {path:'/customer/pageSearch',component:CustomerSearch},
