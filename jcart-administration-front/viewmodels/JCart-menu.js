@@ -52,7 +52,7 @@ var app = new Vue({
                     {
                         name:'admin列表',
                         index:'4-1',
-                        route:'/administrator/getList'
+                        route:'/admin/getList'
                     }
                 ]
             }

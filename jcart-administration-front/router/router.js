@@ -8,7 +8,8 @@ const routes = [
             {path:'/orderHistory/getListByOrderId/:orderId',component:OrderShow},
             {path:'/orderHistory/create',component:OrderShow}
         ]
-    }
+    },
+    {path:'/admin/getList',component:AdminSearch}
 ];
 
 const router = new VueRouter({
