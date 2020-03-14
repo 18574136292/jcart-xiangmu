@@ -1,6 +1,7 @@
 const CustomerShow = {
     template:`
     <div id="app">
+        <el-hiddlen>{{customerId}}</el-hiddlen>
         客户用户名：{{username}} <br>
         客户姓名：{{realName}} <br>
         客户头像：{{avatarUrl}} <br>
@@ -12,6 +13,12 @@ const CustomerShow = {
         积分：{{rewordPoints}} <br>
         默认地址：{{defaultAddress}} <br>
         <br>
+        <el-button size="mini" @click="handleShowAddressClick">查看用户收货地址</el-button>
+<!--        <el-table-column label="操作">-->
+<!--            <template slot-scope="scope">-->
+<!--                -->
+<!--            </template>-->
+<!--        </el-table-column>-->
     </div>
     `,
     data(){
@@ -45,6 +52,10 @@ const CustomerShow = {
         this.getCustomerById();
     },
     methods: {
+        handleShowAddressClick(){
+            console.log('show address list');
+            this.$router.push('/address/getListByCustomerId/' + this.customerId);
+        },
         getCustomerById() {
             axios.get('/customer/getById', {
                 params: {
@@ -54,6 +65,7 @@ const CustomerShow = {
                 .then((response) => {
                     console.log(response);
                     var customer = response.data;
+                    this.customerId = customer.customerId;
                     this.username = customer.username;
                     this.realName = customer.realName;
                     this.avatarUrl = customer.avatarUrl;
