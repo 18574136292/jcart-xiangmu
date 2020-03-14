@@ -48,6 +48,11 @@ const OrderSearch = {
                     {{(new Date(scope.row.updateTimestamp)).toLocaleString()}}
                 </template>
             </el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <el-button size="mini" @click="handleShow(scope.$index, scope.row)">详情</el-button>
+                </template>
+            </el-table-column>
         </el-table>
 
         <el-pagination layout="prev, pager, next" :total="pageInfo.total" @current-change="handlePageChange">
@@ -99,6 +104,10 @@ const OrderSearch = {
             this.totalPrice = '';
             this.startTime = '';
             this.endTime = '';
+        },
+        handleShow(index,row){
+            console.log('show click',index,row);
+            this.$router.push('/order/getById/' + row.orderId);
         },
         handlePageChange() {
             console.log('page changed', val);

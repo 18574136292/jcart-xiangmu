@@ -12,7 +12,7 @@ const ProductUpdate ={
         <el-input v-model="rewordPoints" placeholder="请输入积分"></el-input>
         <el-input v-model="sortOrder" placeholder="请输入排序"></el-input>
         <el-input v-model="productAbstract" type="textarea" placeholder="请输入摘要"></el-input>
-        <textarea id="mytextarea">{{description}}</textarea>
+        <textarea id="mytextarea">{{description}}</textarea><br>
     
         <el-select v-model="selectedStatus" placeholder="请选择状态">
             <el-option v-for="item in statuses" :key="item.value" :label="item.label" :value="item.value">
