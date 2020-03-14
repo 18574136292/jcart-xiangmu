@@ -9,7 +9,8 @@ const routes = [
             {path:'/orderHistory/create',component:OrderShow}
         ]
     },
-    {path:'/admin/getList',component:AdminSearch}
+    {path:'/admin/getList',component:AdminSearch},
+    {path:'/admin/create',component:AdminCreate}
 ];
 
 const router = new VueRouter({
