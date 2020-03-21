@@ -8,11 +8,12 @@ import io.itcast.cfc.dto.out.*;
 import io.itcast.cfc.enumeration.AdministratorStatus;
 import io.itcast.cfc.exception.ClientException;
 import io.itcast.cfc.model.Administrator;
+import io.itcast.cfc.mq.EmailEvent;
 import io.itcast.cfc.service.AdministratorService;
 import io.itcast.cfc.util.JWTUtil;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,9 @@ public class AdministratorController {
     private String fromEmail;
 
     private Map<String, String> emailPwdResetCodeMap = new HashMap<>();
+
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
 
     @GetMapping("/loginIn")
     public AdministratorLoginOutDTO login(AdministratorLoginInDTO administratorLoginInDTO) throws ClientException {
@@ -93,12 +97,11 @@ public class AdministratorController {
         }
         byte[] bytes = secureRandom.generateSeed(3);
         String hexBinary = DatatypeConverter.printHexBinary(bytes);
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(fromEmail);
-        mailMessage.setTo(email);
-        mailMessage.setSubject("管理员重置密码");
-        mailMessage.setText(hexBinary);
-        mailSender.send(mailMessage);
+        EmailEvent emailEvent = new EmailEvent();
+        emailEvent.setToEmail(email);
+        emailEvent.setTitle("jcart管理端管理员密码重置");
+        emailEvent.setContent(hexBinary);
+        rocketMQTemplate.convertAndSend("SendPwdResetByEmail", emailEvent);
         emailPwdResetCodeMap.put(email,hexBinary);
     }
 
