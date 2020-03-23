@@ -118,4 +118,11 @@
 | time | datetime  | 非空 | 时间  |  
 | return_status  | tinyint  | 非空 | 退货状态  |  
 | comment  | varchar(300)  |  | 备注  |  
-| customer_notified  | bit  | 非空  | 是否通知客户  |  
+| customer_notified  | bit  | 非空  | 是否通知客户  |
+
+# ProductOperation
+| 字段  | 类型  | 约束  |  说明 |  
+| product_id | int | 外键 | ID |  
+| all_count | int | 非空 | 总访问次数 |  
+| day_count | int | 非空 | 一天的访问次数 |  
+| recent_time | datetime | 非空 | 最近访问时间 |  
