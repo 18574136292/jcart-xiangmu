@@ -15,6 +15,7 @@ import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.bind.DatatypeConverter;
@@ -92,11 +93,12 @@ public class AdministratorController {
     @GetMapping("/getPasswordResetCode")
     public void getPasswordResetCode(@RequestParam String email) throws ClientException {
         Administrator administrator = administratorService.getByEmail(email);
-        if(administrator == null){
+        if (administrator == null){
             throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG);
         }
         byte[] bytes = secureRandom.generateSeed(3);
         String hexBinary = DatatypeConverter.printHexBinary(bytes);
+
         EmailEvent emailEvent = new EmailEvent();
         emailEvent.setToEmail(email);
         emailEvent.setTitle("jcart管理端管理员密码重置");

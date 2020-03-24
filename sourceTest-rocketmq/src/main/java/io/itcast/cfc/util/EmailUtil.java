@@ -25,8 +25,6 @@ public class EmailUtil {
         message.setSubject(title);
         message.setText(content);
         mailSender.send(message);
-
-        //rizhi
         logger.info("send email ended");
     }
 

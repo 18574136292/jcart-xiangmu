@@ -19,6 +19,6 @@ public class HotProductConsumer {
 
         logger.info("handle productId:{}",productId);
 
-        JSON.parseObject(productId, HotProductDTO.class)
+        JSON.parseObject(productId, HotProductDTO.class);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @MapperScan("io.itcast.cfc.dao")
-@EnableAsync
+//@EnableAsync
 public class MyApp {
     public static void main(String[] args) {
         SpringApplication.run(MyApp.class,args);
